@@ -3,60 +3,32 @@ import "../App.css";
 import Nav from "./Nav";
 import hogs from "../porkers_data";
 import HogTiles from "./HogTiles";
-import Filter from "./Filter";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      all: hogs,
-      hogsToDisplay: hogs
-    };
-  }
-
-  findHogs = () => {
-    //clear Dom at first, then Display what ever the selection of hogs is
-    this.state.hogsToDisplay;
+  state = {
+    hogsToDisplay: hogs,
   };
 
-  findHogsBySelection = selection => {
+  onChange = (selection) => {
     if (selection === "all") {
-      this.setState({ hogsToDisplay: this.state.all });
+      this.setState({ hogsToDisplay: hogs });
     } else if (selection === "greased") {
-      this.setState({
-        hogsToDisplay: this.state.hogsToDisplay.filter(
-          hog => hog.greased === true
-        )
-      });
+      const greased = hogs.filter((hog) => hog.greased);
+      this.setState({ hogsToDisplay: greased });
     } else if (selection === "name") {
-      this.setState({
-        hogsToDisplay: this.state.hogsToDisplay.sort((hog1, hog2) =>
-          hog1.name > hog2.name ? 1 : -1
-        )
-      });
+      const nameSort = hogs.sort((hog1, hog2) => hog1.name > hog2.name ? 1 : -1);
+      this.setState({ hogsToDisplay: nameSort });
     } else if (selection === "weight") {
-      this.setState({
-        hogsToDisplay: this.state.hogsToDisplay.sort((hog1, hog2) =>
-          hog1.weight > hog2.weight ? 1 : -1
-        )
-      });
+      const weightSort = hogs.sort((hog1, hog2) => hog1.weight > hog2.weight ? 1 : -1);
+      this.setState({ hogsToDisplay: weightSort });
     }
   };
 
   render() {
     return (
       <div className="App">
-        <Nav />
-        <div>
-          <Filter
-            findHogs={this.findHogs}
-            findHogsBySelection={this.findHogsBySelection}
-          />
-        </div>
-        <div>
-          {/* <HogTiles hogsToDisplay={this.state.hogsToDisplay} /> */}
-          <HogTiles hogs={hogs} />
-        </div>
+        <Nav onChange={this.onChange} />
+        <HogTiles hogs={this.state.hogsToDisplay} />
       </div>
     );
   }
