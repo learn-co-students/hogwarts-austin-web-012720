@@ -3,7 +3,7 @@ import React from "react";
 
 const Nav = () => {
   return (
-    <div className="navWrapper">
+    <div className="navWrapper" style={{ padding: "10px", margin: "10px" }}>
       <span className="headerText">Hogwarts</span>
       <div className="TwirlyPig">
         <img src={piggy} className="App-logo" alt="piggy" />
